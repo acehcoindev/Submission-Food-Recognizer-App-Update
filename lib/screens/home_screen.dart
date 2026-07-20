@@ -97,6 +97,25 @@ class _HomeScreenState extends State<HomeScreen> {
           recipeInstructions: '1. Rebus santan bersama bumbu halus giling hingga mengeluarkan minyak kemerahan.\n2. Masukkan daging, aduk perlahan di api sedang.\n3. Setelah mengental cokelat, kecilkan api kompor.\n4. Aduk hingga santan mengering hitam beraroma wangi karamel.',
           dateTime: DateTime.now().subtract(const Duration(days: 1)),
         ),
+        ScannedFood(
+          id: 'demo-3',
+          name: 'Buku Tulis (Non-Makanan)',
+          confidence: 0.992,
+          imagePath: '',
+          origin: '-',
+          halalStatus: 'Bukan Makanan',
+          halalReason: 'Objek yang dipindai terdeteksi sebagai "Buku Tulis". Analisis sertifikasi halal dan audit titik kritis kehalalan hanya berlaku untuk produk makanan, minuman, obat-obatan, atau kosmetika konsumsi syariah.',
+          calories: 0.0,
+          carbs: 0.0,
+          protein: 0.0,
+          fat: 0.0,
+          fiber: 0.0,
+          recipeIngredients: [
+            'Bukan kategori makanan/minuman'
+          ],
+          recipeInstructions: 'Resep pembuatan tidak tersedia untuk barang atau produk non-makanan.',
+          dateTime: DateTime.now().subtract(const Duration(days: 2)),
+        ),
       ];
 
       setState(() {

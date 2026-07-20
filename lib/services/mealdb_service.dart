@@ -7,7 +7,17 @@ class MealDBService {
   Future<Map<String, dynamic>> fetchRecipe(String foodName) async {
     final normalized = foodName.toLowerCase();
 
-    // 1. Periksa hidangan tradisional Indonesia terlebih dahulu
+    // 1. Periksa jika objek terdeteksi bukan makanan
+    if (normalized.contains('bukan makanan') || normalized.contains('bukan_makanan') || normalized.contains('non_food') || normalized.contains('non-food')) {
+      return {
+        'ingredients': [
+          'Tidak ada bahan (Objek bukan kategori makanan/minuman)'
+        ],
+        'instructions': 'Petunjuk memasak tidak tersedia karena objek terdeteksi sebagai produk non-makanan.'
+      };
+    }
+
+    // 2. Periksa hidangan tradisional Indonesia terlebih dahulu
     if (normalized.contains('matang')) {
       return {
         'ingredients': [

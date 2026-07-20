@@ -3,6 +3,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_tts/flutter_tts.dart';
 import '../models/scanned_food.dart';
 import '../widgets/macro_card.dart';
+import '../widgets/restaurant_finder.dart';
 
 class ResultScreen extends StatefulWidget {
   final ScannedFood foodItem;
@@ -287,15 +288,15 @@ class _ResultScreenState extends State<ResultScreen> {
                       Container(
                         padding: const EdgeInsets.symmetric(horizontal: 8, vertical: 4),
                         decoration: BoxDecoration(
-                          color: const Color(0xFFECFDF5),
+                          color: item.halalStatus == 'Bukan Makanan' ? const Color(0xFFF1F5F9) : const Color(0xFFECFDF5),
                           borderRadius: BorderRadius.circular(8),
                         ),
                         child: Text(
                           item.halalStatus,
-                          style: const TextStyle(
+                          style: TextStyle(
                             fontSize: 11,
                             fontWeight: FontWeight.w900,
-                            color: Color(0xFF10B981),
+                            color: item.halalStatus == 'Bukan Makanan' ? const Color(0xFF64748B) : const Color(0xFF10B981),
                           ),
                         ),
                       ),
@@ -361,6 +362,13 @@ class _ResultScreenState extends State<ResultScreen> {
                   ),
                 ],
               ),
+            ),
+            const SizedBox(height: 24),
+
+            // 7. Cek Tempat yang Menjual Makanan Ini
+            RestaurantFinder(
+              foodName: item.name,
+              isFood: item.halalStatus != 'Bukan Makanan',
             ),
             const SizedBox(height: 40),
           ],

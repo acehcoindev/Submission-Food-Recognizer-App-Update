@@ -45,7 +45,8 @@ class ClassifierService {
         "Mie Aceh",
         "Lasagna",
         "Beef Stew",
-        "Nasi Lemak"
+        "Nasi Lemak",
+        "Bukan Makanan"
       ];
       _isModelLoaded = true;
     }
@@ -73,11 +74,32 @@ class ClassifierService {
     // Menentukan hidangan yang paling mendekati berdasarkan pola nama berkas jika ada
     final lowerPath = imagePath.toLowerCase();
     String matchedLabel = _labels.first;
-    for (final label in _labels) {
-      final normalizedLabel = label.toLowerCase().replaceAll(' ', '_');
-      if (lowerPath.contains(normalizedLabel) || lowerPath.contains(label.toLowerCase())) {
-        matchedLabel = label;
+    
+    // Deteksi cerdas jika ada pola non-makanan dalam path gambar
+    bool isNonFood = false;
+    final nonFoodKeywords = [
+      'non_food', 'non-food', 'bukan_makanan', 'bukan-makanan', 'kucing', 'anjing', 'cat', 'dog',
+      'meja', 'buku', 'pulpen', 'kursi', 'laptop', 'hp', 'sepatu', 'baju', 'toy', 'chair', 'desk',
+      'book', 'pen', 'phone', 'computer', 'paper', 'plastic', 'dummy', 'glass', 'stone',
+      'wood', 'metal', 'simulated_non_food'
+    ];
+    
+    for (final keyword in nonFoodKeywords) {
+      if (lowerPath.contains(keyword)) {
+        isNonFood = true;
         break;
+      }
+    }
+    
+    if (isNonFood && _labels.contains('Bukan Makanan')) {
+      matchedLabel = 'Bukan Makanan';
+    } else {
+      for (final label in _labels) {
+        final normalizedLabel = label.toLowerCase().replaceAll(' ', '_');
+        if (lowerPath.contains(normalizedLabel) || lowerPath.contains(label.toLowerCase())) {
+          matchedLabel = label;
+          break;
+        }
       }
     }
 

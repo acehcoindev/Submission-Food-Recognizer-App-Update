@@ -32,12 +32,20 @@ class GeminiService {
         );
 
         final prompt = """
-        Lakukan analisis mendalam terhadap hidangan makanan ini: "$foodName".
+        Lakukan analisis mendalam terhadap objek atau hidangan makanan ini: "$foodName".
+        Jika objek ini terdeteksi bukan merupakan kategori makanan atau minuman yang dapat dikonsumsi (seperti buku, meja, kucing, pulpen, dll, atau berlabel "Bukan Makanan"), Anda WAJIB mengembalikan nilai:
+        - "origin" bernilai "-"
+        - "halalStatus" bernilai "Bukan Makanan"
+        - "halalReason" bernilai penjelasan ramah dalam Bahasa Indonesia bahwa objek tersebut adalah non-makanan dan sertifikasi halal tidak berlaku.
+        - "calories", "carbs", "protein", "fat", "fiber" semuanya bernilai 0.0.
+
+        Jika objek ini adalah makanan, lakukan analisis gizi dan kehalalan seperti biasa.
+        
         Hasilkan rincian dalam Bahasa Indonesia sebagai objek JSON dengan format mentah persis seperti berikut tanpa tanda petik miring (markdown):
         {
-          "origin": "Daerah asal kuliner spesifik (misal: Bireuen, Aceh, Indonesia)",
-          "halalStatus": "Halal" atau "Halal (Titik Kritis)",
-          "halalReason": "Penjelasan titik kritis kehalalan bahan-bahan pembuat hidangan ini secara syariat Islam",
+          "origin": "Daerah asal kuliner spesifik (misal: Bireuen, Aceh, Indonesia) atau '-' jika non-makanan",
+          "halalStatus": "Halal" atau "Halal (Titik Kritis)" atau "Bukan Makanan",
+          "halalReason": "Penjelasan titik kritis kehalalan bahan-bahan pembuat hidangan ini secara syariat Islam, atau alasan mengapa objek ini bukan makanan",
           "calories": 350.0,
           "carbs": 24.5,
           "protein": 18.0,
@@ -76,6 +84,19 @@ class GeminiService {
 
   Map<String, dynamic> _getOfflineFallback(String foodName) {
     final normalized = foodName.toLowerCase();
+    
+    if (normalized.contains('bukan makanan') || normalized.contains('bukan_makanan') || normalized.contains('non_food') || normalized.contains('non-food')) {
+      return {
+        'origin': '-',
+        'halalStatus': 'Bukan Makanan',
+        'halalReason': 'Objek terdeteksi sebagai non-makanan. Analisis sertifikasi halal dan kandungan gizi makro hanya berlaku untuk produk makanan atau minuman yang dikonsumsi.',
+        'calories': 0.0,
+        'carbs': 0.0,
+        'protein': 0.0,
+        'fat': 0.0,
+        'fiber': 0.0,
+      };
+    }
     
     if (normalized.contains('matang')) {
       return {

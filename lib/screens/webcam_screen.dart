@@ -81,7 +81,7 @@ class _WebcamScreenState extends State<WebcamScreen> {
     }
   }
 
-  Future<void> _simulateCapture() async {
+  Future<void> _simulateCapture({required bool isFood}) async {
     setState(() {
       _isLoading = true;
     });
@@ -89,7 +89,8 @@ class _WebcamScreenState extends State<WebcamScreen> {
     await Future.delayed(const Duration(milliseconds: 800));
     try {
       final directory = await getTemporaryDirectory();
-      final path = '${directory.path}/simulated_scan_${DateTime.now().millisecondsSinceEpoch}.jpg';
+      final suffix = isFood ? 'simulated_scan' : 'simulated_non_food';
+      final path = '${directory.path}/${suffix}_${DateTime.now().millisecondsSinceEpoch}.jpg';
       final file = File(path);
       await file.writeAsBytes([0, 1, 2, 3]); // Dummy byte stream
       if (mounted) {
@@ -155,9 +156,21 @@ class _WebcamScreenState extends State<WebcamScreen> {
                         padding: const EdgeInsets.symmetric(horizontal: 24, vertical: 12),
                         shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(12)),
                       ),
-                      icon: const Icon(Icons.auto_awesome),
-                      label: const Text('Ambil Gambar Simulasi', style: TextStyle(fontWeight: FontWeight.w800)),
-                      onPressed: _simulateCapture,
+                      icon: const Icon(Icons.restaurant),
+                      label: const Text('Simulasi Pindai Sate Matang (Makanan)', style: TextStyle(fontWeight: FontWeight.w800)),
+                      onPressed: () => _simulateCapture(isFood: true),
+                    ),
+                    const SizedBox(height: 12),
+                    ElevatedButton.icon(
+                      style: ElevatedButton.styleFrom(
+                        backgroundColor: Colors.grey[850],
+                        foregroundColor: Colors.white,
+                        padding: const EdgeInsets.symmetric(horizontal: 24, vertical: 12),
+                        shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(12)),
+                      ),
+                      icon: const Icon(Icons.block_outlined),
+                      label: const Text('Simulasi Pindai Buku (Non-Makanan)', style: TextStyle(fontWeight: FontWeight.w800)),
+                      onPressed: () => _simulateCapture(isFood: false),
                     ),
                   ],
                 ),
