@@ -317,7 +317,7 @@ class _RestaurantFinderState extends State<RestaurantFinder> with TickerProvider
         decoration: BoxDecoration(
           color: Colors.white,
           borderRadius: BorderRadius.circular(20),
-          border: Border.all(color: Colors.grey.withOpacity(0.12)),
+          border: Border.all(color: Colors.grey.withValues(alpha: 0.12)),
         ),
         child: Column(
           children: [
@@ -372,7 +372,7 @@ class _RestaurantFinderState extends State<RestaurantFinder> with TickerProvider
             decoration: BoxDecoration(
               color: const Color(0xFFF1F5F9),
               borderRadius: BorderRadius.circular(20),
-              border: Border.all(color: Colors.grey.withOpacity(0.12)),
+              border: Border.all(color: Colors.grey.withValues(alpha: 0.12)),
             ),
             child: Stack(
               children: [
@@ -421,7 +421,7 @@ class _RestaurantFinderState extends State<RestaurantFinder> with TickerProvider
                   child: Container(
                     padding: const EdgeInsets.symmetric(horizontal: 8, vertical: 4),
                     decoration: BoxDecoration(
-                      color: Colors.white.withOpacity(0.9),
+                      color: Colors.white.withValues(alpha: 0.9),
                       borderRadius: BorderRadius.circular(8),
                     ),
                     child: Row(
@@ -485,10 +485,10 @@ class _RestaurantFinderState extends State<RestaurantFinder> with TickerProvider
             decoration: BoxDecoration(
               color: Colors.white,
               borderRadius: BorderRadius.circular(20),
-              border: Border.all(color: Colors.grey.withOpacity(0.12)),
+              border: Border.all(color: Colors.grey.withValues(alpha: 0.12)),
               boxShadow: [
                 BoxShadow(
-                  color: Colors.black.withOpacity(0.02),
+                  color: Colors.black.withValues(alpha: 0.02),
                   blurRadius: 10,
                   offset: const Offset(0, 4),
                 ),
@@ -809,7 +809,7 @@ class MapPainter extends CustomPainter {
   void paint(Canvas canvas, Size size) {
     // 1. Grid Background lines
     final Paint gridPaint = Paint()
-      ..color = Colors.blue.withOpacity(0.04)
+      ..color = Colors.blue.withValues(alpha: 0.04)
       ..strokeWidth = 1.0;
 
     for (double i = 0; i < size.width; i += 30) {
@@ -821,7 +821,7 @@ class MapPainter extends CustomPainter {
 
     // 2. Simulated Roads mapping
     final Paint roadPaint = Paint()
-      ..color = const Color(0xFFCBD5E1).withOpacity(0.5)
+      ..color = const Color(0xFFCBD5E1).withValues(alpha: 0.5)
       ..strokeWidth = 8.0
       ..strokeCap = StrokeCap.round
       ..style = PaintingStyle.stroke;
@@ -839,7 +839,7 @@ class MapPainter extends CustomPainter {
 
     // 3. Radar Circle Expansion Wave for GPS simulation
     final Paint radarPaint = Paint()
-      ..color = Colors.blue.withOpacity((1.0 - (radarRadius / 50.0)).clamp(0.0, 1.0) * 0.2)
+      ..color = Colors.blue.withValues(alpha: (1.0 - (radarRadius / 50.0)).clamp(0.0, 1.0) * 0.2)
       ..style = PaintingStyle.fill;
     canvas.drawCircle(userPosition, radarRadius, radarPaint);
 

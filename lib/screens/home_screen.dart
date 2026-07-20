@@ -437,7 +437,7 @@ class _HomeScreenState extends State<HomeScreen> {
           // 4. Staggered Full Screen Loader Overlay
           if (_isLoading)
             Container(
-              color: Colors.black.withOpacity(0.7),
+              color: Colors.black.withValues(alpha: 0.7),
               child: Center(
                 child: Container(
                   padding: const EdgeInsets.all(28.0),

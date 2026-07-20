@@ -55,7 +55,18 @@ const FALLBACK_LABELS = [
 // Fallback Nutrition Generator matching GeminiManager.kt
 function generateSimulationNutrition(foodName: string) {
   const nameLower = foodName.toLowerCase();
-  if (nameLower.includes("eiffel") || nameLower.includes("flower") || nameLower.includes("pot") || nameLower.includes("non-makanan")) {
+  if (
+    nameLower.includes("eiffel") ||
+    nameLower.includes("flower") ||
+    nameLower.includes("pot") ||
+    nameLower.includes("geranium") ||
+    nameLower.includes("tower") ||
+    nameLower.includes("non-makanan") ||
+    nameLower.includes("bukan makanan") ||
+    nameLower.includes("buku") ||
+    nameLower.includes("non_food") ||
+    nameLower.includes("non-food")
+  ) {
     return { calories: 0, carbs: 0, fat: 0, fiber: 0, protein: 0 };
   }
   if (nameLower.includes("lontong") || nameLower.includes("sayur")) {
@@ -91,7 +102,18 @@ function generateSimulationNutrition(foodName: string) {
 function generateSimulationRecipe(foodName: string) {
   const nameLower = foodName.toLowerCase();
   
-  if (nameLower.includes("eiffel") || nameLower.includes("flower") || nameLower.includes("pot") || nameLower.includes("non-makanan")) {
+  if (
+    nameLower.includes("eiffel") ||
+    nameLower.includes("flower") ||
+    nameLower.includes("pot") ||
+    nameLower.includes("geranium") ||
+    nameLower.includes("tower") ||
+    nameLower.includes("non-makanan") ||
+    nameLower.includes("bukan makanan") ||
+    nameLower.includes("buku") ||
+    nameLower.includes("non_food") ||
+    nameLower.includes("non-food")
+  ) {
     return {
       recipeTitle: "Bukan Makanan Valid 🚫",
       recipeIngredients: "Tidak ada bahan; Gambar ini dideteksi sebagai objek non-makanan.",
@@ -249,6 +271,27 @@ function generateSimulationExtraFields(foodName: string) {
     { name: "Sederhana", address: "Jl. Sudirman No. 12, Jakarta", rating: 4.6 },
     { name: "Sari Ratu", address: "Jl. Thamrin No. 45, Jakarta", rating: 4.5 }
   ];
+
+  if (
+    nameLower.includes("eiffel") ||
+    nameLower.includes("flower") ||
+    nameLower.includes("pot") ||
+    nameLower.includes("geranium") ||
+    nameLower.includes("tower") ||
+    nameLower.includes("non-makanan") ||
+    nameLower.includes("bukan makanan") ||
+    nameLower.includes("buku") ||
+    nameLower.includes("non_food") ||
+    nameLower.includes("non-food")
+  ) {
+    scientificName = "-";
+    origin = "-";
+    healthAnalysis = "";
+    halalStatus = "Bukan Makanan";
+    halalReason = "Objek terdeteksi sebagai non-makanan. Analisis sertifikasi halal dan gizi makro tidak berlaku.";
+    suggestedRestaurants = [];
+    return { scientificName, origin, healthAnalysis, halalStatus, halalReason, suggestedRestaurants };
+  }
 
   if (nameLower.includes("lontong") || nameLower.includes("sayur")) {
     scientificName = "Artocarpus heterophyllus (Nangka Muda) / Sechium edule (Labu Siam)";

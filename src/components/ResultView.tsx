@@ -297,6 +297,7 @@ export const ResultView: React.FC<ResultViewProps> = ({
             <div className={`w-10 h-10 rounded-xl flex items-center justify-center shrink-0 ${
               foodItem.halalStatus === "Halal" ? "bg-emerald-50 text-emerald-600" :
               foodItem.halalStatus === "Syubhah" ? "bg-amber-50 text-amber-600" :
+              foodItem.halalStatus === "Bukan Makanan" ? "bg-slate-100 text-slate-500" :
               "bg-red-50 text-red-600"
             }`}>
               <ShieldCheck size={22} />
@@ -307,18 +308,21 @@ export const ResultView: React.FC<ResultViewProps> = ({
                 <span className={`text-sm font-black ${
                   foodItem.halalStatus === "Halal" ? "text-emerald-600" :
                   foodItem.halalStatus === "Syubhah" ? "text-amber-600" :
+                  foodItem.halalStatus === "Bukan Makanan" ? "text-slate-500" :
                   "text-red-600"
                 }`}>
                   {foodItem.halalStatus || "Halal"}
                 </span>
-                <span className="text-[10px] text-gray-400 font-bold bg-gray-100 px-1.5 py-0.5 rounded-md">MUI</span>
+                {foodItem.halalStatus !== "Bukan Makanan" && (
+                  <span className="text-[10px] text-gray-400 font-bold bg-gray-100 px-1.5 py-0.5 rounded-md">MUI</span>
+                )}
               </div>
             </div>
           </div>
         </div>
 
         {/* Halal Explanation banner */}
-        {foodItem.halalReason && (
+        {foodItem.halalStatus !== "Bukan Makanan" && foodItem.halalReason && (
           <div className="mt-3 mx-4 bg-emerald-50/40 border border-emerald-100 p-3.5 rounded-2xl text-xs text-gray-600 leading-relaxed shadow-3xs">
             <strong className="text-emerald-700 font-bold block mb-0.5">Analisis Titik Kritis Halal:</strong>
             {foodItem.halalReason}
@@ -326,7 +330,8 @@ export const ResultView: React.FC<ResultViewProps> = ({
         )}
 
         {/* 3. Nutrition Section */}
-        <div className="mt-6 px-4">
+        {foodItem.halalStatus !== "Bukan Makanan" && (
+          <div className="mt-6 px-4">
           <h3 className="text-xs font-black tracking-wider text-emerald-600 uppercase mb-3">
             Kandungan Gizi & Nutrisi
           </h3>
@@ -598,22 +603,26 @@ export const ResultView: React.FC<ResultViewProps> = ({
             </div>
           </div>
         </div>
+        )}
 
         {/* 4. Health & Nutrition Analysis Block */}
-        <div className="mt-6 px-4">
-          <h3 className="text-xs font-black tracking-wider text-rose-500 uppercase mb-3 flex items-center gap-1.5">
-            <Activity size={16} />
-            <span>1. Analisis Kesehatan & Gizi</span>
-          </h3>
-          <div className="bg-rose-50/25 rounded-2xl border border-rose-100/60 p-4 shadow-xs">
-            <p className="text-xs text-gray-700 leading-relaxed font-semibold">
-              {foodItem.healthAnalysis || "Masakan ini menyajikan kombinasi zat gizi esensial yang sangat penting untuk mendukung tingkat metabolisme dan kebugaran fisik harian Anda. Konsumsi sewajarnya sebagai bagian dari diet seimbang harian."}
-            </p>
+        {foodItem.halalStatus !== "Bukan Makanan" && (
+          <div className="mt-6 px-4">
+            <h3 className="text-xs font-black tracking-wider text-rose-500 uppercase mb-3 flex items-center gap-1.5">
+              <Activity size={16} />
+              <span>1. Analisis Kesehatan & Gizi</span>
+            </h3>
+            <div className="bg-rose-50/25 rounded-2xl border border-rose-100/60 p-4 shadow-xs">
+              <p className="text-xs text-gray-700 leading-relaxed font-semibold">
+                {foodItem.healthAnalysis || "Masakan ini menyajikan kombinasi zat gizi esensial yang sangat penting untuk mendukung tingkat metabolisme dan kebugaran fisik harian Anda. Konsumsi sewajarnya sebagai bagian dari diet seimbang harian."}
+              </p>
+            </div>
           </div>
-        </div>
+        )}
 
         {/* 5. Places to Buy (Nearby Restaurant Search) */}
-        <div className="mt-6 px-4">
+        {foodItem.halalStatus !== "Bukan Makanan" && (
+          <div className="mt-6 px-4">
           <h3 className="text-xs font-black tracking-wider text-sky-600 uppercase mb-3 flex items-center gap-1.5">
             <MapPin size={16} />
             <span>2. Cek Tempat yang Menjual Makanan Ini</span>
@@ -679,9 +688,11 @@ export const ResultView: React.FC<ResultViewProps> = ({
             </div>
           </div>
         </div>
+        )}
 
         {/* 6. Recipe Section */}
-        <div className="mt-6 px-4">
+        {foodItem.halalStatus !== "Bukan Makanan" && (
+          <div className="mt-6 px-4">
           <h3 className="text-xs font-black tracking-wider text-amber-600 uppercase mb-3 flex items-center gap-1.5">
             <UtensilsCrossed size={16} />
             <span>3. Resep & Cara Memasak</span>
@@ -752,6 +763,22 @@ export const ResultView: React.FC<ResultViewProps> = ({
             </div>
           )}
         </div>
+        )}
+
+        {/* Empty state for Non-food Items */}
+        {foodItem.halalStatus === "Bukan Makanan" && (
+          <div className="mt-8 mx-4 bg-slate-50 border border-slate-200/60 p-6 rounded-2xl text-center shadow-3xs flex flex-col items-center gap-3">
+            <div className="w-12 h-12 rounded-full bg-slate-100 flex items-center justify-center text-slate-400">
+              <AlertCircle size={24} />
+            </div>
+            <div>
+              <h4 className="text-sm font-bold text-slate-700">Analisis Khusus Makanan Dinonaktifkan</h4>
+              <p className="text-xs text-slate-400 mt-1.5 max-w-xs mx-auto leading-relaxed">
+                Kandungan gizi, analisis kesehatan, resep makanan, serta rekomendasi restoran dinonaktifkan karena objek diidentifikasi sebagai non-makanan.
+              </p>
+            </div>
+          </div>
+        )}
       </div>
 
       {/* Floating Action Button for Text-to-Speech */}
