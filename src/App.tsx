@@ -133,7 +133,7 @@ const App: React.FC = () => {
   };
 
   // Trigger food scan process
-  const processScan = async (base64Image: string) => {
+  const processScan = async (base64Image: string, filename?: string) => {
     setLoading(true);
     setError("");
     setActiveItem(null);
@@ -147,7 +147,7 @@ const App: React.FC = () => {
       const res = await fetch("/api/scan", {
         method: "POST",
         headers: { "Content-Type": "application/json" },
-        body: JSON.stringify({ image: compressedBase64 }),
+        body: JSON.stringify({ image: compressedBase64, filename }),
       });
 
       if (!res.ok) {
@@ -186,7 +186,7 @@ const App: React.FC = () => {
     const reader = new FileReader();
     reader.onloadend = () => {
       const base64 = reader.result as string;
-      processScan(base64);
+      processScan(base64, file.name);
     };
     reader.onerror = () => {
       setError("Gagal membaca file gambar.");
@@ -267,7 +267,7 @@ const App: React.FC = () => {
       const response = await fetch("/api/scan", {
         method: "POST",
         headers: { "Content-Type": "application/json" },
-        body: JSON.stringify({ image: postPayload }),
+        body: JSON.stringify({ image: postPayload, filename: item.imageUrl }),
       });
 
       if (!response.ok) {

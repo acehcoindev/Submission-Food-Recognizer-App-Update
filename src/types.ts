@@ -33,4 +33,5 @@ export interface ScannedFood {
   recipeInstructions: string;
   isSimulated?: boolean; // True if returned from server simulation due to API limits
   simulationReason?: "quota_exceeded" | "missing_api_key" | "other_error" | null;
+  tfliteModelLoaded?: boolean;
 }

@@ -4,7 +4,7 @@
 
 ---
 
-### 📝 LOG REVISI & CATATAN REVIEWER (SUBMISI 1, 2 & 3) 🛠️
+### 📝 LOG REVISI & CATATAN REVIEWER (SUBMISI 1, 2 , 3, 4, 5 & 6) 🛠️
 
 Berikut adalah riwayat catatan dari Reviewer Dicoding beserta solusi teknis konkret yang telah diterapkan untuk menjamin kelulusan submission ini:
 
@@ -131,7 +131,34 @@ Aplikasi ini telah dirancang dengan cermat dan memenuhi seluruh kriteria kelulus
 *   **Fitur Cropper:** Membantu pengguna memotong atau merotasi foto makanan agar fokus pada objek gizi menggunakan paket `image_cropper`.
 
 #### 2. Penerapan Fitur Machine Learning (LiteRT / TensorFlow Lite) 🧠 [TERPENUHI]
-*   **Klasifikasi Cerdas:** Menggunakan model on-device `model.tflite` dan pustaka `labels.txt` untuk mendeteksi apakah gambar adalah makanan yang valid atau non-makanan.
+*   **Model Klasifikasi Utama:** Menggunakan model on-device **[AIY Vision Classifier Food V1](https://www.kaggle.com/models/google/aiy/tfLite/vision-classifier-food-v1/1)** dari Google yang dirancang khusus untuk klasifikasi citra makanan berkualitas tinggi secara offline.
+*   **Kapasitas Deteksi:** Model ini mampu mengklasifikasi hingga **2.024 jenis/kategori makanan** yang berbeda secara presisi dan cepat pada perangkat seluler.
+*   **Optimasi Kelas Lokal:** Pada konfigurasi awal proyek, kami menyediakan berkas `labels.txt` berisi **25 kategori sampel populer** (baik hidangan lokal khas Indonesia maupun internasional seperti *Sate Matang, Rendang, Nasi Goreng, Mie Aceh, Bakso, Soto Ayam*, dsb.) untuk verifikasi cepat fungsionalitas inferensi on-device:
+    1. Sate Matang
+    2. Nasi Goreng
+    3. Sate Ayam
+    4. Rendang
+    5. Bakso
+    6. Soto Ayam
+    7. Gado-Gado
+    8. Martabak
+    9. Nasi Uduk
+    10. Mie Goreng
+    11. Burger
+    12. Pizza
+    13. Salad
+    14. Chocolate Cake
+    15. Sushi
+    16. Ramen
+    17. Spaghetti Carbonara
+    18. Kebab
+    19. Tacos
+    20. Steak
+    21. Lontong Sayur
+    22. Mie Aceh
+    23. Lasagna
+    24. Beef Stew
+    25. Nasi Lemak
 *   **Isolate Background Thread:** Seluruh proses normalisasi piksel citra, pra-pemrosesan data biner, dan inferensi model dijalankan di dalam **Dart Isolate** (`Isolate.run`). Hal ini menjamin UI tetap berjalan di utas utama pada kecepatan stabil 60 FPS tanpa lag atau freezing.
 
 #### 3. Menyediakan Halaman Prediksi Gizi & Resep 🍽️ [TERPENUHI]

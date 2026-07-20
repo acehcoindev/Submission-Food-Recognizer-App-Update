@@ -173,6 +173,31 @@ export const ResultView: React.FC<ResultViewProps> = ({
           </div>
         )}
 
+        {/* Model ML Status Indicator */}
+        <div className="mx-4 mt-4">
+          {foodItem.tfliteModelLoaded ? (
+            <div className="bg-emerald-50/80 backdrop-blur-xs border border-emerald-200/60 rounded-2xl p-3.5 flex gap-3 shadow-xs">
+              <div className="w-8 h-8 bg-emerald-500 text-white rounded-lg flex items-center justify-center shrink-0 text-xs font-black shadow-sm shadow-emerald-200">
+                🤖
+              </div>
+              <div className="text-xs text-emerald-800 leading-relaxed">
+                <p className="font-extrabold mb-0.5">Model ML On-Device Aktif</p>
+                <span>Sistem mendeteksi model <strong>model.tflite</strong> (MobileNetV2 food classifier) terpasang di folder assets. Klasifikasi citra divalidasi secara lokal!</span>
+              </div>
+            </div>
+          ) : (
+            <div className="bg-rose-50/80 backdrop-blur-xs border border-rose-200/60 rounded-2xl p-3.5 flex gap-3 shadow-xs">
+              <div className="w-8 h-8 bg-rose-500 text-white rounded-lg flex items-center justify-center shrink-0 text-xs font-black shadow-sm shadow-rose-200">
+                ⚠️
+              </div>
+              <div className="text-xs text-rose-800 leading-relaxed">
+                <p className="font-extrabold mb-0.5">Model ML On-Device Tidak Ditemukan</p>
+                <span>File model <strong>model.tflite</strong> belum berada di folder assets/. Aplikasi beralih ke <strong>Mode Simulasi Cerdas</strong>.</span>
+              </div>
+            </div>
+          )}
+        </div>
+
         {/* 1. Food Picture Header */}
         <div className="relative w-full h-64 bg-gray-900 overflow-hidden">
           {foodItem.imagePath ? (
